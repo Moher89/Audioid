@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">My First App</string>
-    <string name="edit_message">Enter a message</string>
+    <string name="app_name">Audioid</string>
     <string name="button_send">Send</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_display_message">My Message</string>
+    <string name="new_patient">New patient</string>
+    <string name="load_patient">Load patient</string>
+    <string name="exit">Exit</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_get_patient_data_menu">GetPatientDataMenu</string>
+    <string name="give_login">Give new login</string>
+    <string name="load_login">Create new</string>
+    <string name="back_to_menu">Return</string>
 
 </resources>
