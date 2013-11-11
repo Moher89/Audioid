@@ -5,32 +5,32 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.TextView;
 
-public class GetPatientDataMenu extends Activity {
+public class PatientMenu extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_get_patient_data_menu);
+		setContentView(R.layout.activity_patient_menu);
+		TextView patientName = (TextView) findViewById(R.id.PatientName);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+		    patientName.setText("Welcome " + extras.getString("patientName") + "!"); 
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.get_patient_data_menu, menu);
+		getMenuInflater().inflate(R.menu.patient_menu, menu);
 		return true;
 	}
 	
-	public void createNewPatient(View view){
-    	EditText editText = (EditText) findViewById(R.id.GiveLoginTextArea);
-    	String login = editText.getText().toString();
-    	FileReadWrite fr = new FileReadWrite();
-    	fr.createPatientFile(this, login);
-    	Intent intent = new Intent(this, PatientMenu.class);
-    	intent.putExtra("patientName", login);
+	public void runPTA(View view){
+		Intent intent = new Intent(this, PTA.class);
     	
-    	finish();
+    	//finish();
     	startActivity(intent);
 	}
 	
@@ -40,5 +40,4 @@ public class GetPatientDataMenu extends Activity {
     	finish();
     	startActivity(intent);
     }
-
 }

@@ -6,12 +6,13 @@
     android:orientation="horizontal">
        
      <Button
-        android:id="@+id/LoadPatientButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/load_patient"
-        android:textSize="30sp"
-        android:layout_centerInParent="true" />
+         android:id="@+id/LoadPatientButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_centerInParent="true"
+         android:text="@string/load_patient"
+         android:textSize="30sp"
+         android:onClick="loadPatientData"/>
      
      <Button
         android:id="@+id/NewPatientButton"

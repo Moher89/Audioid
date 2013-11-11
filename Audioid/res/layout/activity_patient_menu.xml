@@ -6,42 +6,49 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".GetPatientDataMenu" >
+    tools:context=".PatientMenu" >
     
-     <Button
-        android:id="@+id/NewLoginButton"
+    <Button
+        android:id="@+id/runPTA"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/load_login"
+        android:text="@string/pure_tone_audiometry"
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:onClick="createNewPatient" />
+        android:onClick="runPTA"/>
     
-    <EditText
-        android:id="@+id/GiveLoginTextArea"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/PatientName"
         android:layout_width="wrap_content"
-        android:hint="@string/give_login"
+        android:layout_height="wrap_content"
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:layout_above="@id/NewLoginButton"/>
-     
-     <Button
-        android:id="@+id/BackToMenuButton"
+        android:layout_above="@id/runPTA"/>
+
+    <ImageView
+        android:id="@id/menu_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sluchawki_menu"
+        android:layout_above="@id/PatientName"/>
+    
+    <Button
+        android:id="@+id/runUCL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/uncomfortable_listening_level"
+        android:textSize="30sp"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/runPTA"/>
+    
+    <Button
+        android:id="@+id/BackToMenuButton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu"
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:layout_below="@id/NewLoginButton"
+        android:layout_below="@id/runUCL"
         android:onClick="getBack"/>
-
-     <ImageView 
-        android:id="@id/menu_image"
-   		android:src="@drawable/sluchawki_menu"
-   		android:layout_width="wrap_content"
-   		android:layout_height="wrap_content"
-   		android:layout_above="@id/GiveLoginTextArea"
-         />
-     
+    
 </RelativeLayout>

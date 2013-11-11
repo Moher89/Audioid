@@ -34,6 +34,18 @@
             android:name="com.example.audioid.GetPatientDataMenu"
             android:label="@string/title_activity_get_patient_data_menu" >
         </activity>
+        <activity
+            android:name="com.example.audioid.PatientMenu"
+            android:label="@string/title_activity_patient_menu" >
+        </activity>
+        <activity
+            android:name="com.example.audioid.LoadPatientDataMenu"
+            android:label="@string/title_activity_load_patient_data_menu" >
+        </activity>
+        <activity
+            android:name="com.example.audioid.PTA"
+            android:label="@string/title_activity_pt" >
+        </activity>
     </application>
 
 </manifest>

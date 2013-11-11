@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.View;
 
 public class Audioid extends Activity  {
-	public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
+	//public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +32,19 @@ public class Audioid extends Activity  {
     
     public void getPatientData(View view) {
     	Intent intent = new Intent(this, GetPatientDataMenu.class);
+    	
+    	finish();
+    	startActivity(intent);
+    }
+    
+    public void loadPatientData(View view) {
+    	Intent intent = new Intent(this, LoadPatientDataMenu.class);
+    	
+    	finish();
     	startActivity(intent);
     }
     
     public void exit(View view) {
-    	finish();
+    	android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

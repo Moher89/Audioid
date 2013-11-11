@@ -14,5 +14,14 @@
     <string name="give_login">Give new login</string>
     <string name="load_login">Create new</string>
     <string name="back_to_menu">Return</string>
+    <string name="title_activity_patient_menu">PatientMenu</string>
+    <string name="pure_tone_audiometry">Pure Tone Audiometry</string>
+    <string name="uncomfortable_listening_level">Uncomfortable Listening Level</string>
+    <string name="title_activity_load_patient_data_menu">LoadPatientDataMenu</string>
+    <string name="title_activity_pt">PTA</string>
+    <string name="play">Play</string>
+    <string name="stop">Stop</string>
+    <string name="vol_up">Volume up</string>
+    <string name="vol_down">Volume down</string>
 
 </resources>
