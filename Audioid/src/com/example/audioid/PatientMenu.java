@@ -3,6 +3,7 @@ package com.example.audioid;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ public class PatientMenu extends Activity {
 		if (extras != null) {
 		    patientName.setText("Welcome " + extras.getString("patientName") + "!"); 
 		}
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -34,7 +36,14 @@ public class PatientMenu extends Activity {
     	startActivity(intent);
 	}
 	
-    public void getBack(View view) {
+	public void runUCL(View view){
+		Intent intent = new Intent(this, UCL.class);
+    	
+    	//finish();
+    	startActivity(intent);
+	}
+	
+    public void getBack(View view){
     	Intent intent = new Intent(this, Audioid.class);
     	
     	finish();

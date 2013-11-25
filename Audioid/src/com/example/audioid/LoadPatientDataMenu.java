@@ -5,6 +5,7 @@ import java.util.List;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -52,7 +53,8 @@ public class LoadPatientDataMenu extends Activity {
 //		    tl.addView(tr,new TableLayout.LayoutParams(   
 //		    LayoutParams.FILL_PARENT,   
 //		    LayoutParams.WRAP_CONTENT));  
-//	    }  
+//	    }
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override

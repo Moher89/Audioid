@@ -7,12 +7,13 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
 import android.view.Menu;
 import android.view.View;
 
 public class PTA extends Activity {
-	MediaPlayer player;
+	MediaPlayer player = new MediaPlayer();
 	int max, volume;
 	AudioManager audioManager;
 	
@@ -20,6 +21,7 @@ public class PTA extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pt);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
@@ -30,6 +32,11 @@ public class PTA extends Activity {
 	}
 	
 	public void playMusic(View view){
+		if(player.isPlaying())
+		{
+			player.stop();
+		}
+		
 		AssetFileDescriptor afd;
 		try {
 			afd = getAssets().openFd("riverdance.mp3");
@@ -40,31 +47,38 @@ public class PTA extends Activity {
 			audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 			max = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 			volume = max;
+			afd.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public void stopMusic(View view){
-		player.stop();
+		if(player.isPlaying())
+		{
+			player.stop();
+		}
 	}
 	
 	public void volUpMusic(View view){
-		if(volume<max)
+		if(player.isPlaying() && volume<max)
 		{
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume++, AudioManager.FLAG_PLAY_SOUND);
 		}
 	}
 	
 	public void volDownMusic(View view){
-		if(volume>0)
+		if(player.isPlaying() && volume>0)
 		{
 			audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, volume--, AudioManager.FLAG_PLAY_SOUND);
 		}
 	}
 	
     public void getBack(View view) {
-    	player.stop();
+    	if(player.isPlaying())
+		{
+    		player.stop();
+		}
     	finish();
     }
 }
