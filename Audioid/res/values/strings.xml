@@ -28,5 +28,8 @@
     <string name="next">Next</string>
     <string name="give_x">Give x</string>
     <string name="give_y">Give y</string>
+    <string name="hear">Hear</string>
+    <string name="cant_hear">Can\'t hear</string>
+    <string name="hearing_limit">Hearing limit</string>
 
 </resources>
