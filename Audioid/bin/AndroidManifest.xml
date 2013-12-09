@@ -50,6 +50,10 @@
             android:name="com.example.audioid.UCL"
             android:label="@string/title_activity_ucl" >
         </activity>
+        <activity
+            android:name="com.example.audioid.PTAandUCL"
+            android:label="@string/title_activity_ptaand_ucl" >
+        </activity>
     </application>
 
 </manifest>

@@ -31,5 +31,9 @@
     <string name="hear">Hear</string>
     <string name="cant_hear">Can\'t hear</string>
     <string name="hearing_limit">Hearing limit</string>
+    <string name="too_loud">Too loud</string>
+    <string name="comfortable_limit">Comfortable limit</string>
+    <string name="comfortable">Comfortable</string>
+    <string name="title_activity_ptaand_ucl">PTAandUCL</string>
 
 </resources>
