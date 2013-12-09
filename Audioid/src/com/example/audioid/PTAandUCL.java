@@ -8,7 +8,9 @@ import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 
-import android.media.MediaPlayer;
+import android.media.AudioManager;
+import android.media.SoundPool;
+import android.media.SoundPool.OnLoadCompleteListener;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,7 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class PTAandUCL extends Activity {
-	MediaPlayer player = new MediaPlayer();
+	SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	int id = -1;
 	boolean ifStop = false; //temporarily to stop the procedure
 	boolean ifRight = true; //which ear is analyzed now
 	int whichHz = 0; //element from HzPoints table
@@ -154,7 +157,8 @@ public class PTAandUCL extends Activity {
 			else
 			{
 				ifStop = true;
-				stopMusic();
+				soundPool.stop(id);
+				soundPool.release();
 			}
 		}
 		else
@@ -188,42 +192,53 @@ public class PTAandUCL extends Activity {
 		alertDialog.show();
 	}
 	
-	public void playMusic(String file)
-	{
-		stopMusic();
-		
-		AssetFileDescriptor afd;
-		try
-		{
-			afd = getAssets().openFd(file);
-			player.reset();
-			player = new MediaPlayer();
-			player.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
-			player.prepare();
-			player.setLooping(true);
-			player.start();
-			afd.close();
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
+    @SuppressLint("NewApi")
+	public void playMusic(String filepath)
+    {
+    	if(id != -1)
+    	{
+    		soundPool.stop(id);
+    		soundPool.release();
+    	}
+    	
+    	final float leftVolume, rightVolume;
+    	if(ifRight)
+    	{
+    		leftVolume = 1;
+    		rightVolume = 0;
+    	}
+    	else
+    	{
+    		leftVolume = 0;
+    		rightVolume = 1;
+    	}
+    	
+    	soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
 
-	public void stopMusic()
-	{
-		if(player.isPlaying())
-		{
-			player.stop();
+    	AssetFileDescriptor afd = null;
+        try
+        {
+			afd = getAssets().openFd(filepath);
+	        id = soundPool.load(afd, 1);
+	        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
+	        {
+	            public void onLoadComplete(SoundPool arg0, int arg1, int arg2)
+	            {
+	                soundPool.play(id, leftVolume, rightVolume, 1, -1, 1f);
+	            };
+	        });
+	        afd.close();
+        }
+        catch (IOException e1)
+        {
+			e1.printStackTrace();
 		}
-	}
+    }
 	
     public void getBack(View view)
     {
-    	if(player.isPlaying())
-		{
-    		player.stop();
-		}
+    	soundPool.stop(id);
+    	soundPool.release();
     	finish();
     }
 }
