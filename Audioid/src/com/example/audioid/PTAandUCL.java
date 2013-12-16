@@ -11,6 +11,7 @@ import com.jjoe64.graphview.GraphView.GraphViewData;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
+import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,7 +23,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 public class PTAandUCL extends Activity {
-	SoundPool soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 0);
+	String name; //name of actual procedure (PTA vs UCL)
+	SoundPool soundPool = null;
 	int id = -1;
 	boolean ifStop = false; //temporarily to stop the procedure
 	boolean ifRight = true; //which ear is analyzed now
@@ -31,12 +33,12 @@ public class PTAandUCL extends Activity {
 	int pointNmb = 9; //number of elements in HzPoints table
 	double[] HzPoints = {1, 2, 3, 3.5, 4, 4.5, 5, 5.5, 6};
 	int[] HzValues = {250, 500, 1000, 1500, 2000, 3000, 4000, 6000, 8000};
-	double[][] leftEar = new double[pointNmb][2]; //9 measure points x 2 parameters (dB, Hz)
+	double[][] leftEar = new double[pointNmb][2]; //9 measure points x 2 parameters (Hz, dB)
 	double[][] rightEar = new double[pointNmb][2];
 	GraphViewData[] axisHolder = new GraphViewData[] {new GraphViewData(0, -10), new GraphViewData(7, 100)};
 	double pX = HzPoints[whichHz], pY = getDB(whichDB);
 	
-	protected int getDB(int x)
+	private int getDB(int x)
 	{
 		return 90-x;
 	}
@@ -134,6 +136,10 @@ public class PTAandUCL extends Activity {
 				createGraph();
 				playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 			}
+			else
+			{
+				hearingLimit(null);
+			}
 		}
 	}
 	
@@ -154,11 +160,15 @@ public class PTAandUCL extends Activity {
 				createGraph();
 				playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 			}
-			else
+			else if(!ifStop)
 			{
 				ifStop = true;
 				soundPool.stop(id);
 				soundPool.release();
+				Bundle extras = getIntent().getExtras();
+				FileReadWrite frw = new FileReadWrite();
+		    	frw.saveResults(this, extras.getString("patientName"), name, leftEar, rightEar);
+		    	errorMessg("Results saved");
 			}
 		}
 		else
@@ -193,7 +203,7 @@ public class PTAandUCL extends Activity {
 	}
 	
     @SuppressLint("NewApi")
-	public void playMusic(String filepath)
+	private void playMusic(String filepath)
     {
     	if(id != -1)
     	{
@@ -213,18 +223,18 @@ public class PTAandUCL extends Activity {
     		rightVolume = 1;
     	}
     	
-    	soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+    	soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
     	AssetFileDescriptor afd = null;
         try
         {
 			afd = getAssets().openFd(filepath);
-	        id = soundPool.load(afd, 1);
+	        final int idLoad = soundPool.load(afd, 1);
 	        soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener()
 	        {
 	            public void onLoadComplete(SoundPool arg0, int arg1, int arg2)
 	            {
-	                soundPool.play(id, leftVolume, rightVolume, 1, -1, 1f);
+	                id = soundPool.play(idLoad, leftVolume, rightVolume, 1, -1, 1f);
 	            };
 	        });
 	        afd.close();
@@ -234,8 +244,8 @@ public class PTAandUCL extends Activity {
 			e1.printStackTrace();
 		}
     }
-	
-    public void getBack(View view)
+    
+	public void getBack(View view)
     {
     	soundPool.stop(id);
     	soundPool.release();

@@ -31,17 +31,27 @@ public class PatientMenu extends Activity {
 	
 	public void runPTA(View view){
 		Intent intent = new Intent(this, PTA.class);
-    	
+		Bundle extras = getIntent().getExtras();
+		intent.putExtra("patientName", extras.getString("patientName"));
     	//finish();
     	startActivity(intent);
 	}
 	
 	public void runUCL(View view){
 		Intent intent = new Intent(this, UCL.class);
-    	
+		Bundle extras = getIntent().getExtras();
+		intent.putExtra("patientName", extras.getString("patientName"));
     	//finish();
     	startActivity(intent);
 	}
+	
+	public void showHistory(View view){
+    	Intent intent = new Intent(this, History.class);
+    	Bundle extras = getIntent().getExtras();
+		intent.putExtra("patientName", extras.getString("patientName"));
+    	//finish();
+    	startActivity(intent);
+    }
 	
     public void getBack(View view){
     	Intent intent = new Intent(this, Audioid.class);

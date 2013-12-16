@@ -11,6 +11,7 @@ public class PTA extends PTAandUCL {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pt);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		name = "PTA";
 		start();
 	}
 

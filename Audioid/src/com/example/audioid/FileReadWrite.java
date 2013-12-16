@@ -1,11 +1,12 @@
 package com.example.audioid;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,82 +14,154 @@ import android.content.Context;
 
 public class FileReadWrite extends Activity
 {
-	public void createPatientFile(Context ctx, String fileName) {
-		try {
-//			File mydir = ctx.getDir("data", Context.MODE_PRIVATE); //Creating an internal dir;
-//			File fileWithinMyDir = new File(mydir, fileName+".txt"); //Getting a file within the dir.
-//			FileOutputStream out = new FileOutputStream(fileWithinMyDir); //Use the stream as usual to write into the file
+	public boolean createPatientFile(Context ctx, String patientName)
+	{
+		try
+		{
+			FileOutputStream outputStream = ctx.openFileOutput("patients", Context.MODE_APPEND);
 			
-			//OutputStreamWriter outputStreamWriter = new OutputStreamWriter(ctx.openFileOutput(fileName+".txt", Context.MODE_PRIVATE));
-			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(ctx.openFileOutput(fileName+".txt", Context.MODE_PRIVATE));
-			outputStreamWriter.close();
+			String line;
+			FileInputStream fis = ctx.openFileInput("patients");
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+		    if (fis!=null)
+		    {                            
+		        while ((line = reader.readLine()) != null)
+		        {    
+		            if(line.equals(patientName))
+		            {
+		            	fis.close();
+		            	outputStream.close();
+		            	return false;
+		            }
+		        }               
+		    }       
+		    fis.close();
 			
-			outputStreamWriter = new OutputStreamWriter(ctx.openFileOutput("patients.txt", Context.MODE_PRIVATE));
-			outputStreamWriter.append(fileName);
-			outputStreamWriter.close();
+			outputStream.write(patientName.getBytes());
+			outputStream.write("\n".getBytes());
+			outputStream.close();
 			
-		} catch (IOException e) {
+			outputStream = ctx.openFileOutput(patientName, Context.MODE_PRIVATE);
+			outputStream.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return true;
+	}
+	
+	public void saveResults(Context ctx, String patientName, String procedureName, double[][] leftEar, double[][] rightEar)
+	{
+		FileOutputStream outputStream;
+		Calendar c = Calendar.getInstance();
+		String point, title;
+
+		try
+		{
+			outputStream = ctx.openFileOutput(patientName, Context.MODE_APPEND);
+			title = "Title: " + 
+					String.valueOf(c.get(Calendar.HOUR)) + "/" +
+					String.valueOf(c.get(Calendar.MINUTE)) + "/" +
+					String.valueOf(c.get(Calendar.SECOND)) + "/" +
+					String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "/" +
+					String.valueOf(c.get(Calendar.MONTH)) + "/" +
+					String.valueOf(c.get(Calendar.YEAR)) + " - " +
+					procedureName + "\n";
+			outputStream.write(title.getBytes());
+			
+			outputStream.write("LeftEar: ".getBytes());
+			for(int i=0; i<leftEar.length; i++)
+			{
+				point = String.valueOf(leftEar[i][0]) + ";" + String.valueOf(leftEar[i][1]) + "-";
+				outputStream.write(point.getBytes());
+			}
+			outputStream.write("\n".getBytes());
+			
+			outputStream.write("RightEar: ".getBytes());
+			for(int i=0; i<rightEar.length; i++)
+			{
+				point = String.valueOf(rightEar[i][0]) + ";" + String.valueOf(rightEar[i][1]) + "-";
+				outputStream.write(point.getBytes());
+			}
+			outputStream.write("\n".getBytes());
+			
+			outputStream.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 	}
 	
-	public List<String> givePatients(Context ctx){
+	public List<String> getPatients(Context ctx)
+	{
 		List<String> patientNames = new ArrayList<String>();
-		InputStream inputStream;
-		try {
-			inputStream = ctx.openFileInput("patients.txt");
-			if (inputStream != null) {
-		          InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		          BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-		          String line;
-		          while ((line = bufferedReader.readLine()) != null) {
-		        	  patientNames.add(line);
-		          }
-		          inputStream.close();
-		    }
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		String line;
+		try
+		{
+			FileInputStream fis = ctx.openFileInput("patients");
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+		    if (fis!=null)
+		    {                            
+		        while ((line = reader.readLine()) != null)
+		        {    
+		        	patientNames.add(line);
+		        }               
+		    }       
+		    fis.close();
+		}
+		catch (FileNotFoundException e)
+		{
 			e.printStackTrace();
 		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
 		return patientNames;
 	}
 	
-//	public void writeFileFromInternalStorage(String fileName) {
-//		BufferedWriter writer = null;
-//		try {
-//			writer = new BufferedWriter(new OutputStreamWriter(openFileOutput(fileName, Context.MODE_WORLD_WRITEABLE)));
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (writer != null) {
-//				try {
-//					writer.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
-	
-//	public void readFileFromInternalStorage(String fileName) {
-//		BufferedReader input = null;
-//		try {
-//			input = new BufferedReader(new InputStreamReader(openFileInput(fileName)));
-//			String line;
-//			StringBuffer buffer = new StringBuffer();
-//			while ((line = input.readLine()) != null) {
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			if (input != null) {
-//				try {
-//					input.close();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//	}
+	public List<String> getHistory(Context ctx, String patientName)
+	{
+		List<String> procedures = new ArrayList<String>();
+		String line;
+		try
+		{
+			FileInputStream fis = ctx.openFileInput(patientName);
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+		    if (fis!=null)
+		    {                            
+		        while ((line = reader.readLine()) != null)
+		        {
+		        	if(line.contains("Title:"))
+		        	{
+		        		line = line.substring(line.indexOf(":")+2);
+			        	procedures.add(line);
+		        	}
+		        }               
+		    }       
+		    fis.close();
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		return procedures;
+	}
 }

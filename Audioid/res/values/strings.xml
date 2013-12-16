@@ -35,5 +35,7 @@
     <string name="comfortable_limit">Comfortable limit</string>
     <string name="comfortable">Comfortable</string>
     <string name="title_activity_ptaand_ucl">PTAandUCL</string>
+    <string name="show_history">History</string>
+    <string name="title_activity_history">History</string>
 
 </resources>

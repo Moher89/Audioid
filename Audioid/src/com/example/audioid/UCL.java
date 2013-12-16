@@ -11,6 +11,7 @@ public class UCL extends PTAandUCL {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_ucl);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		name = "UCL";
 		start();
 	}
 
