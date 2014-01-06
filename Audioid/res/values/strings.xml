@@ -37,5 +37,6 @@
     <string name="title_activity_ptaand_ucl">PTAandUCL</string>
     <string name="show_history">History</string>
     <string name="title_activity_history">History</string>
+    <string name="title_activity_show_result">ShowResult</string>
 
 </resources>

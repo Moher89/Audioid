@@ -35,16 +35,24 @@ public class PTAandUCL extends Activity {
 	int[] HzValues = {250, 500, 1000, 1500, 2000, 3000, 4000, 6000, 8000};
 	double[][] leftEar = new double[pointNmb][2]; //9 measure points x 2 parameters (Hz, dB)
 	double[][] rightEar = new double[pointNmb][2];
-	GraphViewData[] axisHolder = new GraphViewData[] {new GraphViewData(0, -10), new GraphViewData(7, 100)};
-	double pX = HzPoints[whichHz], pY = getDB(whichDB);
+	GraphViewData[] axisHolder = new GraphViewData[] {new GraphViewData(0, -10), new GraphViewData(7, 100)}; //keeps the constant size of the axis
+	double pX = HzPoints[whichHz], pY = getDB(whichDB); //actual point on the plot
 	
+	/**
+	 * @param x - real value of dB
+	 * @return value of dB to draw it on the plot in the right place
+	 */
 	private int getDB(int x)
 	{
 		return 90-x;
 	}
 	
+	/**
+	 * Initiate the procedure.
+	 */
 	public void start()
 	{
+		//Initiate the data points (all on Hz/dB = Hz(i)/40)
 		for(int i=0; i<pointNmb; i++)
 		{
 			leftEar[i][0] = HzPoints[i];
@@ -57,8 +65,12 @@ public class PTAandUCL extends Activity {
 		playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 	}
 	
+	/**
+	 * Draw a graph for actual data points.
+	 */
 	private void createGraph()
 	{
+		//Create main data points:
 		GraphViewData[] leftEarData = new GraphViewData[pointNmb];
 		for(int i=0; i<pointNmb; i++)
 		{
@@ -71,6 +83,7 @@ public class PTAandUCL extends Activity {
 			rightEarData[i] = new GraphViewData(rightEar[i][0], rightEar[i][1]);
 		}
 		
+		//Create crosses:
 		GraphViewData[] pointNowData1 = new GraphViewData[2];
 		pointNowData1[0] = new GraphViewData(pX-0.25, pY+5);
 		pointNowData1[1] = new GraphViewData(pX+0.25, pY-5);
@@ -78,19 +91,22 @@ public class PTAandUCL extends Activity {
 		pointNowData2[0] = new GraphViewData(pX-0.25, pY-5);
 		pointNowData2[1] = new GraphViewData(pX+0.25, pY+5);
 		
+		//Give colors and names:
 		GraphViewSeries axisHolderSerie = new GraphViewSeries("", new GraphViewSeriesStyle(Color.TRANSPARENT, 0), axisHolder);
 		GraphViewSeries leftEarSerie = new GraphViewSeries("Left Ear", new GraphViewSeriesStyle(Color.BLUE, 3), leftEarData);
 		GraphViewSeries rightEarSerie = new GraphViewSeries("Right Ear", new GraphViewSeriesStyle(Color.RED, 3), rightEarData);
 		GraphViewSeries pointNowSerie1 = new GraphViewSeries("Point Now", new GraphViewSeriesStyle(Color.GREEN, 3), pointNowData1);
 		GraphViewSeries pointNowSerie2 = new GraphViewSeries("Point Now", new GraphViewSeriesStyle(Color.GREEN, 3), pointNowData2);
 
-		GraphView graphView = new LineGraphView(this, "PTA");
+		//Add data to the graph:
+		GraphView graphView = new LineGraphView(this, name);
 		graphView.addSeries(axisHolderSerie);
 		graphView.addSeries(leftEarSerie);
 		graphView.addSeries(rightEarSerie);
 		graphView.addSeries(pointNowSerie1);
 		graphView.addSeries(pointNowSerie2);
 		
+		//Set labels:
 		graphView.setHorizontalLabels(new String[] {"125", "250", "500", "1000", "2000", "4000", "8000", "[Hz]"});
 		graphView.setVerticalLabels(new String[] {"[dBHL]", "0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"});
 		//											100    90   80    70    60    50    40    30    20    10    0     -10   
@@ -115,11 +131,15 @@ public class PTAandUCL extends Activity {
 		makeChange(10);
 	}
 	
+	/**
+	 * Change the dB value.
+	 * @param delta - how much change the dB
+	 */
 	public void makeChange(int delta)
 	{
 		if(!ifStop)
 		{
-			if((delta == -10 && whichDB > 0) || (delta == 10 && whichDB < 90))
+			if((delta == -10 && whichDB > 0) || (delta == 10 && whichDB < 90)) //if it is possible to change
 			{
 				whichDB = whichDB+delta;
 				if(ifRight)
@@ -143,11 +163,15 @@ public class PTAandUCL extends Activity {
 		}
 	}
 	
+	/**
+	 * Go to the next Hz point.
+	 * @param view - cause it is a button
+	 */
 	public void hearingLimit(View view)
 	{
-		if(whichHz == pointNmb-1)
+		if(whichHz == pointNmb-1) //if it is the end of Hz
 		{
-			if(ifRight)
+			if(ifRight) //if it was right then left
 			{
 				errorMessg("Left ear now");
 				ifRight = false;
@@ -160,7 +184,7 @@ public class PTAandUCL extends Activity {
 				createGraph();
 				playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 			}
-			else if(!ifStop)
+			else if(!ifStop) //if it was left then stop if didn't stop
 			{
 				ifStop = true;
 				soundPool.stop(id);
@@ -202,6 +226,10 @@ public class PTAandUCL extends Activity {
 		alertDialog.show();
 	}
 	
+    /**
+     * Play the music file.
+     * @param filepath - file path to the music file
+     */
     @SuppressLint("NewApi")
 	private void playMusic(String filepath)
     {

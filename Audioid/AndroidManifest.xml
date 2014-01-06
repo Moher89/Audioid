@@ -58,6 +58,10 @@
             android:name="com.example.audioid.History"
             android:label="@string/title_activity_history" >
         </activity>
+        <activity
+            android:name="com.example.audioid.ShowResult"
+            android:label="@string/title_activity_show_result" >
+        </activity>
     </application>
 
 </manifest>

@@ -7,9 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.view.Menu;
 import android.view.View;
 
-public class Audioid extends Activity  {
-	//public final static String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
-	
+public class Audioid extends Activity
+{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,35 +17,30 @@ public class Audioid extends Activity  {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.audioid, menu);
         return true;
     }
     
-//    public void setMessage(View view) {
-//    	Intent intent = new Intent(this, DisplayMessageActivity.class);
-//    	EditText editText = (EditText) findViewById(R.id.edit_message);
-//    	String message = editText.getText().toString();
-//    	intent.putExtra(EXTRA_MESSAGE, message);
-//    	startActivity(intent);
-//    }
-    
-    public void getPatientData(View view) {
+    public void getPatientData(View view) //create a new patient
+    {
     	Intent intent = new Intent(this, GetPatientDataMenu.class);
     	
     	finish();
     	startActivity(intent);
     }
     
-    public void loadPatientData(View view) {
+    public void loadPatientData(View view) //load already created patient
+    {
     	Intent intent = new Intent(this, LoadPatientDataMenu.class);
     	
     	finish();
     	startActivity(intent);
     }
     
-    public void exit(View view) {
+    public void exit(View view) //leave the program
+    {
     	android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

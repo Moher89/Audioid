@@ -32,14 +32,14 @@ public class LoadPatientDataMenu extends Activity implements View.OnClickListene
 		setContentView(R.layout.activity_load_patient_data_menu);
 		TableLayout table = (TableLayout) findViewById(R.id.patientTable);
 
-		patientNames = new FileReadWrite().getPatients(this);
+		patientNames = new FileReadWrite().getPatients(this); //read created patients names
 		int patientNmb = patientNames.size();
 		
 	    WindowManager mWinMgr = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
 	    int displayWidth = mWinMgr.getDefaultDisplay().getWidth();
 	    displayWidth = displayWidth - 100;
 		
-		if(patientNmb != 0)
+		if(patientNmb != 0) //if there is any patient
 		{
 			for (int i=0; i<patientNmb; i++)
 			{
@@ -106,13 +106,14 @@ public class LoadPatientDataMenu extends Activity implements View.OnClickListene
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		getMenuInflater().inflate(R.menu.load_patient_data_menu, menu);
 		return true;
 	}
 	
-    public void getBack(View view) {
+    public void getBack(View view)
+    {
     	Intent intent = new Intent(this, Audioid.class);
     	
     	finish();

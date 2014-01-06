@@ -12,43 +12,45 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class GetPatientDataMenu extends Activity {
-
+public class GetPatientDataMenu extends Activity
+{
+	boolean ifOK = false; //if patient created properly
+	String login; //given patient login
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_get_patient_data_menu);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		getMenuInflater().inflate(R.menu.get_patient_data_menu, menu);
 		return true;
 	}
 	
-	public void createNewPatient(View view){
+	public void createNewPatient(View view)
+	{
     	EditText editText = (EditText) findViewById(R.id.GiveLoginTextArea);
-    	String login = editText.getText().toString();
+    	login = editText.getText().toString();
     	FileReadWrite fr = new FileReadWrite();
-    	if(!fr.createPatientFile(this, login))
+    	if(!fr.createPatientFile(this, login)) //check if login already exists
     	{
     		errorMessg("Patient already exists");
     		return;
     	}
     	else
     	{
+    		ifOK = true;
     		errorMessg("Patient created");
     	}
-    	Intent intent = new Intent(this, PatientMenu.class);
-    	intent.putExtra("patientName", login);
-    	
-    	finish();
-    	startActivity(intent);
 	}
 	
-    public void getBack(View view) {
+    public void getBack(View view) //go back
+    {
     	Intent intent = new Intent(this, Audioid.class);
     	
     	finish();
@@ -56,7 +58,7 @@ public class GetPatientDataMenu extends Activity {
     }
     
 	@SuppressWarnings("deprecation")
-	private void errorMessg(String text)
+	private void errorMessg(String text)//show message
 	{
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setTitle("Alert");
@@ -68,9 +70,16 @@ public class GetPatientDataMenu extends Activity {
 				public void onClick(DialogInterface dialog, int which)
 		        {
 		        	Toast.makeText(getApplicationContext(), "OK", Toast.LENGTH_SHORT);
+		        	if(ifOK) //if patient was created successfully
+		        	{
+		            	Intent intent = new Intent(getApplicationContext(), PatientMenu.class);
+		            	intent.putExtra("patientName", login);
+		            	
+		            	finish();
+		            	startActivity(intent);
+		        	}
 		        }
 		});
 		alertDialog.show();
 	}
-
 }

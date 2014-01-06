@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 public class History extends Activity implements View.OnClickListener
 {
-	List<String> proceduresHistory;
+	List<String> proceduresHistory; //list of procedures for the chosen patient
 	
 	@SuppressLint("CutPasteId")
 	@SuppressWarnings("deprecation")
@@ -38,14 +38,14 @@ public class History extends Activity implements View.OnClickListener
 		{
 			patientName = extras.getString("patientName"); 
 		}
-		proceduresHistory = new FileReadWrite().getHistory(this, patientName);
+		proceduresHistory = new FileReadWrite().getHistory(this, patientName); //get history
 		int procedureNmb = proceduresHistory.size();
 		
 	    WindowManager mWinMgr = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
 	    int displayWidth = mWinMgr.getDefaultDisplay().getWidth();
 	    displayWidth = displayWidth - 100;
 		
-		if(procedureNmb != 0)
+		if(procedureNmb != 0) //check if there is any procedure already done for this patient
 		{
 			for (int i=0; i<procedureNmb; i++)
 			{
@@ -112,8 +112,8 @@ public class History extends Activity implements View.OnClickListener
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
 		getMenuInflater().inflate(R.menu.history, menu);
 		return true;
 	}
@@ -124,14 +124,20 @@ public class History extends Activity implements View.OnClickListener
     }
 	
 	@Override
-	public void onClick(View v)
+	public void onClick(View v) //give info about which patient and which procedure to the next activity
 	{
 	    Button btn = (Button) v;
 	    int id = btn.getId();
-	    //Intent intent = new Intent(this, ShowResult.class);
-	    //intent.putExtra("procedureName", proceduresHistory.get(id));
+	    Bundle extras = getIntent().getExtras();
+	    Intent intent = new Intent(this, ShowResult.class);
+	    intent.putExtra("procedureName", proceduresHistory.get(id));
     	
-	    //finish();
-	    //startActivity(intent);
+		if (extras != null)
+		{
+			intent.putExtra("patientName", extras.getString("patientName")); 
+		}
+	    
+	    finish();
+	    startActivity(intent);
 	}
 }

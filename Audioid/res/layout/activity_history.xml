@@ -8,13 +8,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".History" >
 
+    <ScrollView 
+    android:id="@+id/scrollTable2" 
+    android:layout_height="250dp"         
+    android:scrollbars="vertical" 
+    android:layout_width="match_parent"
+    android:scrollbarStyle="outsideInset"
+    android:layout_centerInParent="true">
+    
     <TableLayout
 	    android:id="@+id/procedureTable"
 	    android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_gravity="center"
         android:textAlignment="center"
 	    />
+    
+    </ScrollView>
 	
 	<Button
         android:id="@+id/BackToMenuButton6"
@@ -23,7 +33,7 @@
         android:text="@string/back_to_menu"
         android:textSize="30sp"
         android:layout_centerInParent="true"
-        android:layout_below="@id/procedureTable"
+        android:layout_below="@id/scrollTable2"
         android:onClick="getBack"/>
 	
 	<ImageView
@@ -31,6 +41,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/sluchawki_menu"
-        android:layout_above="@id/procedureTable"/>
+        android:layout_above="@id/scrollTable2"/>
 
 </RelativeLayout>
