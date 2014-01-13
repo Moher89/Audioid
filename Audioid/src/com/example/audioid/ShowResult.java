@@ -11,6 +11,7 @@ import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.view.Display;
 import android.view.Menu;
@@ -39,6 +40,7 @@ public class ShowResult extends Activity
 			earData = new FileReadWrite().getEarData(this, patientName, procedureName);
 		}
 		createGraph(earData);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override

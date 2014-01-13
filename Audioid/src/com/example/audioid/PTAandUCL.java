@@ -20,6 +20,7 @@ import android.content.res.AssetFileDescriptor;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PTAandUCL extends Activity {
@@ -62,6 +63,7 @@ public class PTAandUCL extends Activity {
 		}
 		errorMessg("Plug on your headphones - right ear first");
 		createGraph();
+		changeText();
 		playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 	}
 	
@@ -182,6 +184,7 @@ public class PTAandUCL extends Activity {
 				RelativeLayout layout = (RelativeLayout) (findViewById(R.id.HearingPlot));
 				layout.removeAllViews();
 				createGraph();
+				changeText();
 				playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 			}
 			else if(!ifStop) //if it was left then stop if didn't stop
@@ -204,6 +207,7 @@ public class PTAandUCL extends Activity {
 			RelativeLayout layout = (RelativeLayout) (findViewById(R.id.HearingPlot));
 			layout.removeAllViews();
 			createGraph();
+			changeText();
 			playMusic(String.valueOf(HzValues[whichHz])+"_"+whichDB+".wav");
 		}
 	}
@@ -271,6 +275,26 @@ public class PTAandUCL extends Activity {
         {
 			e1.printStackTrace();
 		}
+    }
+    
+    /**
+     * Change the text displayed under the plot.
+     */
+    private void changeText()
+    {
+    	String text = "";
+    	if(ifRight)
+    	{
+    		text += "Right ear: ";
+    	}
+    	else
+    	{
+    		text += "Left ear: ";
+    	}
+    	text += String.valueOf(pointNmb - whichHz) + " points left";
+
+    	TextView t = (TextView)findViewById(R.id.StepsToEnd); 
+        t.setText(text);
     }
     
 	public void getBack(View view)

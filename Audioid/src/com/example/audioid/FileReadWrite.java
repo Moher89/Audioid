@@ -15,6 +15,16 @@ import android.content.Context;
 public class FileReadWrite extends Activity
 {
 	/**
+	 * Possible comments of the results.
+	 */
+	private static String[] comments = {
+		"Normal hearing.",
+		"Acustic injury in ",
+		"Ears aging.",
+		"Deaf of ",
+		"Something uncommon with "};
+	
+	/**
 	 * Create data files for new patient.
 	 * @param ctx - application context
 	 * @param patientName - name of the patient to create
@@ -109,6 +119,11 @@ public class FileReadWrite extends Activity
 			}
 			outputStream.write("\n".getBytes());
 			
+//			if(procedureName.equals("PTA"))
+//			{
+//				boolean[] rightEarAnalysis = resultAnalysis(rightEar);
+//			}
+			
 			outputStream.close();
 		}
 		catch (FileNotFoundException e)
@@ -119,6 +134,39 @@ public class FileReadWrite extends Activity
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private boolean[] resultAnalysis(double[][] earData)
+	{
+		boolean[] whichComments = new boolean[comments.length];
+		int dataPointsNmb = earData.length;
+		
+		double max=-1000, min=1000;
+		boolean ifOK = true;
+		for(int i=0; i<dataPointsNmb; i++)
+		{
+			if(earData[i][1] < 40)
+			{
+				ifOK = false;
+				break;
+			}
+			else if(earData[i][1] > max)
+			{
+				max = earData[i][1];
+			}
+			else if(earData[i][1] < min)
+			{
+				min = earData[i][1];
+			}
+		}
+		
+		if(max-min < 30 & ifOK)
+		{
+			whichComments[0] = true;
+			return whichComments;
+		}
+		
+		return whichComments;
 	}
 	
 	/**
