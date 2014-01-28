@@ -19,10 +19,20 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+/**
+ * Show the history of procedures done for current patient.
+ * @author Moher
+ */
 public class History extends Activity implements View.OnClickListener
 {
-	List<String> proceduresHistory; //list of procedures for the chosen patient
+	/**
+	 * List of procedures for the current patient.
+	 */
+	private List<String> proceduresHistory;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@SuppressLint("CutPasteId")
 	@SuppressWarnings("deprecation")
 	@Override
@@ -111,6 +121,9 @@ public class History extends Activity implements View.OnClickListener
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -118,13 +131,23 @@ public class History extends Activity implements View.OnClickListener
 		return true;
 	}
 	
+    /**
+     * Go to the previous menu.
+     * @param view clicked View
+     */
     public void getBack(View view)
     {
     	finish();
     }
 	
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+    /**
+     * Give info about which patient and which procedure was chosen to the next activity.
+     */
 	@Override
-	public void onClick(View v) //give info about which patient and which procedure to the next activity
+	public void onClick(View v)
 	{
 	    Button btn = (Button) v;
 	    int id = btn.getId();

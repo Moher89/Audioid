@@ -19,10 +19,20 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+/**
+ * Showing the list of already created patients. Allows to load one.
+ * @author Moher
+ */
 public class LoadPatientDataMenu extends Activity implements View.OnClickListener
 {
-	List<String> patientNames;
+	/**
+	 * List of already created patients.
+	 */
+	private List<String> patientNames;
 	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@SuppressLint("CutPasteId")
 	@SuppressWarnings("deprecation")
 	@Override
@@ -105,6 +115,9 @@ public class LoadPatientDataMenu extends Activity implements View.OnClickListene
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -112,6 +125,10 @@ public class LoadPatientDataMenu extends Activity implements View.OnClickListene
 		return true;
 	}
 	
+    /**
+     * Go to the previous menu.
+     * @param view clicked View
+     */
     public void getBack(View view)
     {
     	Intent intent = new Intent(this, Audioid.class);
@@ -120,6 +137,12 @@ public class LoadPatientDataMenu extends Activity implements View.OnClickListene
     	startActivity(intent);
     }
 
+	/* (non-Javadoc)
+	 * @see android.view.View.OnClickListener#onClick(android.view.View)
+	 */
+    /**
+     * Give info about which patient was chosen to the next activity.
+     */
 	@Override
 	public void onClick(View v)
 	{

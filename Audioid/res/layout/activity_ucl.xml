@@ -8,28 +8,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".UCL" >
     
+    <TextView
+        android:id="@id/StepsToEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"/>
+    
     <Button
         android:id="@+id/TooLoud"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/too_loud"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_centerInParent="true"
-        android:onClick="hear"/>
+        android:onClick="hear"
+        android:layout_below="@id/StepsToEnd"/>
     
     <RelativeLayout
         android:id="@id/HearingPlot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_above="@id/TooLoud"/>
+        android:layout_above="@id/StepsToEnd"/>
     
     <Button
         android:id="@+id/ComfortableLimit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/comfortable_limit"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_centerInParent="true"
         android:layout_below="@id/TooLoud"
         android:onClick="hearingLimit"/>
@@ -39,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/comfortable"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_centerInParent="true"
         android:layout_below="@id/ComfortableLimit"
         android:onClick="cantHear"/>
@@ -49,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:layout_centerInParent="true"
         android:layout_below="@id/Comfortable"
         android:onClick="getBack"/>

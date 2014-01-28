@@ -14,14 +14,23 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
     
+    <TextView
+        android:id="@+id/Diagnosis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/SavedPlot"/>
+    
     <Button
         android:id="@+id/BackToMenuButton7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back_to_menu"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:layout_centerInParent="true"
-        android:layout_below="@id/SavedPlot"
+        android:layout_below="@id/Diagnosis"
         android:onClick="getBack"/>
 
 </RelativeLayout>

@@ -12,11 +12,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Open a menu for creating new patient.
+ * @author Moher
+ */
 public class GetPatientDataMenu extends Activity
 {
-	boolean ifOK = false; //if patient created properly
-	String login; //given patient login
+	/**
+	 * Patient created properly flag.
+	 */
+	private boolean ifOK = false;
 	
+	/**
+	 * Given patient's login.
+	 */
+	private String login;
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -25,6 +39,9 @@ public class GetPatientDataMenu extends Activity
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -32,12 +49,21 @@ public class GetPatientDataMenu extends Activity
 		return true;
 	}
 	
+	/**
+	 * Create new patient.
+	 * @param view clicked View
+	 */
 	public void createNewPatient(View view)
 	{
     	EditText editText = (EditText) findViewById(R.id.GiveLoginTextArea);
     	login = editText.getText().toString();
     	FileReadWrite fr = new FileReadWrite();
-    	if(!fr.createPatientFile(this, login)) //check if login already exists
+    	if(login.equals(""))
+    	{
+    		errorMessg("Give patient's name");
+    		return;
+    	}
+    	else if(!fr.createPatientFile(this, login)) //check if login already exists
     	{
     		errorMessg("Patient already exists");
     		return;
@@ -49,6 +75,10 @@ public class GetPatientDataMenu extends Activity
     	}
 	}
 	
+    /**
+     * Go to the previous menu.
+     * @param view clicked View
+     */
     public void getBack(View view) //go back
     {
     	Intent intent = new Intent(this, Audioid.class);
@@ -57,6 +87,10 @@ public class GetPatientDataMenu extends Activity
     	startActivity(intent);
     }
     
+	/**
+	 * Show the message.
+	 * @param text - message text
+	 */
 	@SuppressWarnings("deprecation")
 	private void errorMessg(String text)//show message
 	{

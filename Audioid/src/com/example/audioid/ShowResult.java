@@ -17,15 +17,47 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+/**
+ * Show the result of the procedure chosen from the History.
+ * @author Moher
+ */
 public class ShowResult extends Activity
 {
-	int pointNmb = 9; //number of elements in HzPoints table
-	double[][] leftEar = new double[pointNmb][2]; //9 measure points x 2 parameters (Hz, dB)
-	double[][] rightEar = new double[pointNmb][2];
-	GraphViewData[] axisHolder = new GraphViewData[] {new GraphViewData(0, -10), new GraphViewData(7, 100)}; //keeps the constant size of the axis
-	String patientName, procedureName;
+	/**
+	 * Number of different Hz points.
+	 */
+	private int pointNmb = 9; //number of elements in HzPoints table
 	
+	/**
+	 *  Data for left ear: 9 measure points x 2 parameters (Hz, dB)
+	 */
+	private double[][] leftEar = new double[pointNmb][2];
+	
+	/**
+	 *  Data for right ear: 9 measure points x 2 parameters (Hz, dB)
+	 */
+	private double[][] rightEar = new double[pointNmb][2];
+	
+	/**
+	 * Points to keep the constant size of the axis.
+	 */
+	private GraphViewData[] axisHolder = new GraphViewData[] {new GraphViewData(0, -10), new GraphViewData(7, 100)}; //keeps the constant size of the axis
+	
+	/**
+	 * Name of actual patient.
+	 */
+	private String patientName;
+	
+	/**
+	 * Name of actual procedure (PTA or UCL).
+	 */
+	private String procedureName;
+	
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -37,12 +69,19 @@ public class ShowResult extends Activity
 		{
 			patientName = extras.getString("patientName");
 			procedureName = extras.getString("procedureName");
-			earData = new FileReadWrite().getEarData(this, patientName, procedureName);
+			FileReadWrite frw = new FileReadWrite();
+			frw.loadEarData(this, patientName, procedureName);
+			earData = frw.getEarData();
+			TextView diagnosis = (TextView) findViewById(R.id.Diagnosis);
+			diagnosis.setText(frw.getDiagnosis());
 		}
 		createGraph(earData);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -52,7 +91,7 @@ public class ShowResult extends Activity
 	
 	/**
 	 * Create graph.
-	 * @param earData - list with matrixes of data for both ears
+	 * @param earData list with matrixes of data for both ears
 	 */
 	private void createGraph(List<double[][]> earData)
 	{
@@ -87,7 +126,7 @@ public class ShowResult extends Activity
 		graphView.getGraphViewStyle().setGridColor(Color.GRAY);
 		graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.BLACK);
 		graphView.getGraphViewStyle().setVerticalLabelsColor(Color.BLACK);
-		graphView.getGraphViewStyle().setTextSize(10);
+		graphView.getGraphViewStyle().setTextSize(15);
 		graphView.getGraphViewStyle().setNumHorizontalLabels(8);
 		graphView.getGraphViewStyle().setNumVerticalLabels(12);
 		
@@ -99,6 +138,10 @@ public class ShowResult extends Activity
 		layout.setLayoutParams(layout_description);
 	}
 	
+	/**
+     * Go to the previous menu.
+     * @param view clicked View
+     */
     public void getBack(View view)
     {
     	Bundle extras = getIntent().getExtras();
